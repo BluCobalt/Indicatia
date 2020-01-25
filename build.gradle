@@ -30,9 +30,9 @@ minecraft {
     runDir = "run"
     mappings = "${mcp_mapping}"
     makeObfSourceJar = false
-
-    replace "@FINGERPRINT@", project.sha1
-    replaceIn "IndicatiaMod.java"
+    // Again, idr need this
+    // replace "@FINGERPRINT@", project.sha1
+    // replaceIn "IndicatiaMod.java"
 }
 
 configurations {
@@ -104,33 +104,33 @@ artifacts {
     archives deobfJar
 }
 
-curseforge {
-    apiKey = project.indicatia_api
-    project {
-        id = "272146"
-        changelog = "Change Log"
-        changelogType = "text"
-        releaseType = "release"
-        addGameVersion mcVersion
+// curseforge {
+//    apiKey = project.indicatia_api
+//    project {
+//        id = "272146"
+//        changelog = "Change Log"
+//        changelogType = "text"
+//        releaseType = "release"
+//        addGameVersion mcVersion
+//
+//        mainArtifact(jar) {
+//            displayName = "Indicatia-" + mcVersion + "-" + version
+//            relations {
+//                requiredLibrary "stevekungs-lib"
+//            }
+//        }
+//        addArtifact sourcesJar
+//        addArtifact deobfJar
+//    }
+//}
+// dont need to sign the jar
+//task signJar(type: SignJar, dependsOn: reobfJar) {
+//     keyStore = project.keystore_path
+//     alias = project.alias
+//     storePass = project.keystore_pass
+//     keyPass = project.keystore_pass
+//     inputFile = jar.archivePath
+//     outputFile = jar.archivePath
+// }
 
-        mainArtifact(jar) {
-            displayName = "Indicatia-" + mcVersion + "-" + version
-            relations {
-                requiredLibrary "stevekungs-lib"
-            }
-        }
-        addArtifact sourcesJar
-        addArtifact deobfJar
-    }
-}
-
-task signJar(type: SignJar, dependsOn: reobfJar) {
-    keyStore = project.keystore_path
-    alias = project.alias
-    storePass = project.keystore_pass
-    keyPass = project.keystore_pass
-    inputFile = jar.archivePath
-    outputFile = jar.archivePath
-}
-
-build.dependsOn signJar
+// build.dependsOn signJar

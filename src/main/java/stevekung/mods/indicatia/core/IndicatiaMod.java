@@ -44,7 +44,7 @@ import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.VersionChecker;
 import stevekung.mods.stevekunglib.utils.client.ClientUtils;
 
-@Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.DEPENDENCIES, updateJSON = IndicatiaMod.JSON_URL, clientSideOnly = true, certificateFingerprint = IndicatiaMod.CERTIFICATE)
+@Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.DEPENDENCIES, updateJSON = IndicatiaMod.JSON_URL, clientSideOnly = true)
 public class IndicatiaMod
 {
     protected static final String NAME = "Indicatia";
@@ -57,7 +57,8 @@ public class IndicatiaMod
     protected static final String DEPENDENCIES = "required-after:stevekung's_lib@[1.1.5,); " + IndicatiaMod.FORGE_VERSION;
     private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
     protected static final String JSON_URL = "https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json";
-    protected static final String CERTIFICATE = "@FINGERPRINT@";
+    // idr need this and im gonna be honest i really dont know how to fix it so like
+    // protected static final String CERTIFICATE = "@FINGERPRINT@";
 
     @Instance(IndicatiaMod.MOD_ID)
     public static IndicatiaMod INSTANCE;
