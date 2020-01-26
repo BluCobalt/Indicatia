@@ -49,9 +49,10 @@ public class IndicatiaMod
 {
     protected static final String NAME = "Indicatia";
     public static final String MOD_ID = "indicatia";
+    public static final String INFO = "Fork of IndicatiaMod with a few tweaks";
     private static final int MAJOR_VERSION = 1;
-    private static final int MINOR_VERSION = 3;
-    private static final int BUILD_VERSION = 3;
+    private static final int MINOR_VERSION = 4;
+    private static final int BUILD_VERSION = 5;
     public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
     private static final String FORGE_VERSION = "after:forge@[14.23.5.2768,);";
     protected static final String DEPENDENCIES = "required-after:stevekung's_lib@[1.1.5,); " + IndicatiaMod.FORGE_VERSION;
@@ -61,7 +62,6 @@ public class IndicatiaMod
     @Instance(IndicatiaMod.MOD_ID)
     public static IndicatiaMod INSTANCE;
 
-    public static boolean isDevelopment;
     public static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
     public static VersionChecker CHECKER;
     public static final boolean isGalacticraftLoaded = Loader.isModLoaded("galacticraftcore");
@@ -69,12 +69,6 @@ public class IndicatiaMod
 
     static
     {
-        //try
-        //{
-        //    IndicatiaMod.isDevelopment = Launch.classLoader.getClassBytes("net.minecraft.world.World") != null;
-        //}
-        //catch (Exception e) {}
-
         IndicatiaMod.initProfileFile();
     }
 
@@ -119,7 +113,7 @@ public class IndicatiaMod
     public void init(FMLInitializationEvent event)
     {
         IndicatiaMod.loadProfileOption();
-        LoggerIN.info("This is a fork of a mod by someone with *very* little java knowledge. Do not contact the original mod author for assitance.");
+        LoggerIN.info("This is a fork of a mod by someone with *very* little java knowledge. Do not contact the original mod author for assistance.");
     }
 
     @EventHandler

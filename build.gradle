@@ -30,107 +30,73 @@ minecraft {
     runDir = "run"
     mappings = "${mcp_mapping}"
     makeObfSourceJar = false
-    // Again, idr need this
-    // replace "@FINGERPRINT@", project.sha1
-    // replaceIn "IndicatiaMod.java"
-}
 
-configurations {
-    embed
-    implementation.extendsFrom(embed)
-}
-
-dependencies {
-    deobfCompile "stevekungs-lib:SteveKunG's-Lib-1.12.2:1.1.5:deobf"
-    embed("org.spongepowered:mixin:0.7.11-SNAPSHOT") { transitive = false }
-}
-
-repositories {
-    maven {
-        url "https://plugins.gradle.org/m2/"
+    configurations {
+        embed
+        implementation.extendsFrom(embed)
     }
-    maven {
-        url = "http://repo.spongepowered.org/maven/"
+
+    dependencies {
+        deobfCompile "stevekungs-lib:SteveKunG's-Lib-1.12.2:1.1.5:deobf"
+        embed("org.spongepowered:mixin:0.7.11-SNAPSHOT") { transitive = false }
     }
-    maven {
-        url = "https://minecraft.curseforge.com/api/maven/"
+
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            url = "http://repo.spongepowered.org/maven/"
+        }
+        maven {
+            url = "https://minecraft.curseforge.com/api/maven/"
+        }
+    }
+
+    sourceSets {
+        main {
+            ext.refMap = "mixins.indicatia.refmap.json"
+        }
+    }
+
+    jar {
+        from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
+            exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
+        }
+        manifest {
+            attributes("FMLAT": "indicatia_at.cfg",
+                    "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+                    "MixinConfigs": "mixins.indicatia.json",
+                    "ForceLoadAsMod": "true"
+            )
+        }
+        baseName = "Indicatia-" + mcVersion
+    }
+
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allSource
+        baseName = "Indicatia-" + mcVersion
+        classifier = "sources"
+    }
+
+    task deobfJar(type: Jar) {
+        from sourceSets.main.output
+        from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
+            exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
+        }
+        manifest {
+            attributes("FMLAT": "indicatia_at.cfg",
+                    "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+                    "MixinConfigs": "mixins.indicatia.json",
+                    "ForceLoadAsMod": "true"
+            )
+        }
+        baseName = "Indicatia-" + mcVersion
+        classifier = "deobf"
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives deobfJar
     }
 }
-
-sourceSets {
-    main {
-        ext.refMap = "mixins.indicatia.refmap.json"
-    }
-}
-
-jar {
-    from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
-        exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
-    }
-    manifest {
-        attributes("FMLAT": "indicatia_at.cfg",
-                   "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-                   "MixinConfigs": "mixins.indicatia.json",
-                   "ForceLoadAsMod": "true"
-        )
-    }
-    baseName = "Indicatia-" + mcVersion
-}
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-	baseName = "Indicatia-" + mcVersion
-    classifier = "sources"
-}
-
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
-        exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
-    }
-    manifest {
-        attributes("FMLAT": "indicatia_at.cfg",
-                   "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-                   "MixinConfigs": "mixins.indicatia.json",
-                   "ForceLoadAsMod": "true"
-        )
-    }
-    baseName = "Indicatia-" + mcVersion
-    classifier = "deobf"
-}
-
-artifacts {
-    archives sourcesJar
-    archives deobfJar
-}
-
-// curseforge {
-//    apiKey = project.indicatia_api
-//    project {
-//        id = "272146"
-//        changelog = "Change Log"
-//        changelogType = "text"
-//        releaseType = "release"
-//        addGameVersion mcVersion
-//
-//        mainArtifact(jar) {
-//            displayName = "Indicatia-" + mcVersion + "-" + version
-//            relations {
-//                requiredLibrary "stevekungs-lib"
-//            }
-//        }
-//        addArtifact sourcesJar
-//        addArtifact deobfJar
-//    }
-//}
-// dont need to sign the jar
-//task signJar(type: SignJar, dependsOn: reobfJar) {
-//     keyStore = project.keystore_path
-//     alias = project.alias
-//     storePass = project.keystore_pass
-//     keyPass = project.keystore_pass
-//     inputFile = jar.archivePath
-//     outputFile = jar.archivePath
-// }
-
-// build.dependsOn signJar

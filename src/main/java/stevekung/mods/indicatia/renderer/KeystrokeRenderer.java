@@ -30,10 +30,10 @@ public class KeystrokeRenderer
         int widthSquare = 80;
         int heightSquare = 48 + ExtendedConfig.instance.keystrokeYOffset;
         boolean nullScreen = mc.currentScreen == null;
-        boolean wDown = nullScreen && Keyboard.isKeyDown(51);
-        boolean aDown = nullScreen && Keyboard.isKeyDown(30);
-        boolean sDown = nullScreen && Keyboard.isKeyDown(51);
-        boolean dDown = nullScreen && Keyboard.isKeyDown(30);
+        boolean wDown = nullScreen && Keyboard.isKeyDown(Keyboard.KEY_COMMA);
+        boolean aDown = nullScreen && Keyboard.isKeyDown(Keyboard.KEY_A);
+        boolean sDown = nullScreen && Keyboard.isKeyDown(Keyboard.KEY_O);
+        boolean dDown = nullScreen && Keyboard.isKeyDown(Keyboard.KEY_E);
         boolean lmbDown = nullScreen && Mouse.isButtonDown(0);
         boolean rmbDown = nullScreen && Mouse.isButtonDown(1);
         boolean sprintDown = mc.player.isSprinting();
