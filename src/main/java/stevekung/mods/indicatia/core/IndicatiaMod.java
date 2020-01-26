@@ -57,8 +57,6 @@ public class IndicatiaMod
     protected static final String DEPENDENCIES = "required-after:stevekung's_lib@[1.1.5,); " + IndicatiaMod.FORGE_VERSION;
     private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
     protected static final String JSON_URL = "https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json";
-    // idr need this and im gonna be honest i really dont know how to fix it so like
-    // protected static final String CERTIFICATE = "@FINGERPRINT@";
 
     @Instance(IndicatiaMod.MOD_ID)
     public static IndicatiaMod INSTANCE;
@@ -71,11 +69,11 @@ public class IndicatiaMod
 
     static
     {
-        try
-        {
-            IndicatiaMod.isDevelopment = Launch.classLoader.getClassBytes("net.minecraft.world.World") != null;
-        }
-        catch (Exception e) {}
+        //try
+        //{
+        //    IndicatiaMod.isDevelopment = Launch.classLoader.getClassBytes("net.minecraft.world.World") != null;
+        //}
+        //catch (Exception e) {}
 
         IndicatiaMod.initProfileFile();
     }
@@ -121,6 +119,7 @@ public class IndicatiaMod
     public void init(FMLInitializationEvent event)
     {
         IndicatiaMod.loadProfileOption();
+        LoggerIN.info("This is a fork of a mod by someone with *very* little java knowledge. Do not contact the original mod author for assitance.");
     }
 
     @EventHandler
@@ -129,19 +128,6 @@ public class IndicatiaMod
         CapeUtils.loadCapeTextureAtStartup();
         GuiChatRegistry.register(new GuiIndicatiaChat());
         new ThreadMinigameData().run();
-    }
-
-    @EventHandler
-    public void onFingerprintViolation(FMLFingerprintViolationEvent event)
-    {
-        if (IndicatiaMod.isDevelopment)
-        {
-            LoggerIN.info("Development environment detected! Ignore certificate check.");
-        }
-        else
-        {
-            throw new RuntimeException("Invalid fingerprint detected! This version will NOT be supported by the author!");
-        }
     }
 
     @SubscribeEvent
